@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AyurSutra | Consultation Form</title>
+  
+  <style>
+    /* Theme Colors */
+:root {
+  --bg: #f7f6f3;
+  --text: #222;
+  --accent: #3b7a57; /* green */
+  --accent-soft: #d4b483; /* sandal */
+  --primary: #2f6d55;
+  --primary-light: #d4f5e9;
+  --secondary: #f8b400;
+  --secondary-light: #fff5d1;
+  --text: #333;
+  --text-light: #666;
+  --bg-light: #f4f8f7;
+  --white: #ffffff;
+  --gray: #f5f5f5;
+  --gray-border: #e0e0e0;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.4s ease;
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body fix for scrolling */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  min-height: 100vh;   /* instead of fixed height */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;    /* allow vertical scroll */
+  line-height: 1.6;
+}
+
+/* Main header */
+.main-header {
+  background: var(--white);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--gray-border);
+  box-shadow: var(--shadow);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.logo i {
+  color: var(--secondary);
+}
+
+/* Search bar */
+.search-container {
+  flex: 1;
+  max-width: 500px;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  border: 2px solid var(--primary-light);
+  border-radius: 24px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar:focus {
+  border-color: var(--primary);
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.action-item:hover {
+  color: var(--primary);
+}
+
+.login-btn {
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background: #26674f;
+  color: white;
+}
+
+.main-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-border);
+  padding: 0 20px;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-item {
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-item:hover {
+  color: var(--primary);
+}
+
+.nav-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Form Container */
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* start so it scrolls */
+  padding: 30px 15px;
+}
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #264653;
+}
+
+/* Form Sections */
+.consult-form {
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.form-box {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form-box h3 {
+  margin-bottom: 10px;
+  color: #2a9d8f;
+}
+.form-box label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+.form-box input,
+.form-box textarea,
+.form-box select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.form-box input:focus,
+.form-box textarea:focus,
+.form-box select:focus {
+  border-color: #2a9d8f;
+  outline: none;
+}
+
+/* Submit */
+.submit-row {
+  display: flex;
+  justify-content: center;
+}
+.btn-submit {
+  background: #2a9d8f;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-submit:hover {
+  background: #21867a;
+}
+  </style>
+</head>
+<body>
+   <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fas fa-spa"></i>
+          <span>AyurSutra</span>
+        </div>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for therapies, medicines, or Ayurvedic advice...">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      
+      <div class="header-actions">
+        <a class="login-btn" href="/index.html">Home</a>
+        <div class="action-item">
+          <i class="fas fa-user"></i>
+          <span class="login-btn"> <a href="/navbar/login.html" style="color:white; text-decoration:none;">Hello, Log in</a></span>
+        </div>
+        <div class="action-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Cart</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+    <!-- Main navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-item">Medicine</div>
+      <div class="nav-item">
+        <i class="fas fa-calendar-check"></i>
+        <a href="/schedule.html">Your Schedule</a>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Vedas</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Consultation Form -->
+  <div class="form-container">
+    <h2>🩺 Consultation Form</h2>
+    <form class="consult-form">
+      <div class="form-sections">
+        <!-- Left: Medical History -->
+        <div class="form-box">
+          <h3>Medical History</h3>
+          <label>Past Illness / Surgeries</label>
+          <input type="text">
+          <label>Current Medications</label>
+          <input type="text">
+          <label>Family Medical History</label>
+          <input type="text">
+          <label>Allergies</label>
+          <input type="text">
+        </div>
+
+        <!-- Right: Current Health Complaint -->
+        <div class="form-box">
+          <h3>Current Health Complaint</h3>
+          <label>Main Symptoms</label>
+          <textarea rows="2"></textarea>
+          <label>Duration of Symptoms</label>
+          <input type="text">
+          <label>Severity</label>
+          <select>
+            <option value="">-- Select --</option>
+            <option>Mild</option>
+            <option>Moderate</option>
+            <option>Severe</option>
+          </select>
+          <label>Triggers / Relieving Factors</label>
+          <textarea rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-row">
+        <button type="submit" class="btn-submit">Submit Consultation</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

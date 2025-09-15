@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZENITH - Panchakarma Scheduling</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    /* Theme Colors */
+    :root {
+      --bg: #f7f6f3;
+      --text: #222;
+      --accent: #3b7a57; /* green */
+      --accent-soft: #d4b483; /* sandal */
+      --primary: #2f6d55;
+      --primary-light: #d4f5e9;
+      --secondary: #f8b400;
+      --secondary-light: #fff5d1;
+      --text-light: #666;
+      --bg-light: #f4f8f7;
+      --white: #ffffff;
+      --gray: #f5f5f5;
+      --gray-border: #e0e0e0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.4s ease;
+      line-height: 1.6;
+    }
+
+    /* Glass Effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Header */
+    .main-header {
+      background: var(--white);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--gray-border);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .logo i {
+      color: var(--secondary);
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border: 2px solid var(--primary-light);
+      border-radius: 24px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(63, 121, 87, 0.3);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .action-item:hover {
+      color: var(--primary);
+    }
+
+    .login-btn {
+      background: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .login-btn:hover {
+      background: #26674f;
+      color: white;
+    }
+
+    /* Navigation */
+    .main-nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 0 20px;
+      position: sticky;
+      top: 64px;
+      z-index: 999;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-item {
+      padding: 14px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item a {
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-item:hover {
+      color: var(--primary);
+    }
+
+    .nav-item:hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px 2px 0 0;
+    }
+
+    /* Right icons */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+
+    .icon {
+      position: relative;
+      background: #f5f5f5;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .icon:hover {
+      background: #eaeaea;
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e74c3c;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Notification Panel */
+    .notification-panel {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      padding: 15px;
+      z-index: 1000;
+    }
+
+    .notification-panel h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    .notification-panel ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .notification-panel li {
+      padding: 10px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--gray-border);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .notification-panel li:hover {
+      background: var(--gray);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin: 30px auto;
+      padding: 40px 20px;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 100px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .search-box button {
+      background: var(--accent);
+      color: white;
+      border: solid;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-box button:hover {
+      background: #256b3f;
+    }
+
+    /* Features */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px;
+    }
+
+    .feature-card {
+      padding: 20px;
+      min-width: 160px;
+      text-align: center;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .big-btn {
+      background: var(--accent);
+      color: white;
+      font-weight: bold;
+      padding: 25px 35px;
+      text-decoration: none;
+    }
+
+    /* Concerns */
+    .browse {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .concerns {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .concern-card {
+      padding: 20px;
+      min-width: 120px;
+      border-radius: 20px;
+      transition: transform 0.3s;
+    }
+
+    .concern-card:hover {
+      transform: scale(1.05);
+    }
+
+/* foot */
+    /* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Segoe UI", sans-serif; line-height: 1.6; background: #fdfdfd; color: #333; }
+
+/* Hero */
+.her {
+  position: relative;
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1604881991648-1e2ab56e95b1?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+.her .overla {
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: #2a9d8f;
+}
+.her-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+.her h1 {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+.her p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+.btn-primar {
+  background: #ffd166;
+  color: #222;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.btn-primar:hover { background: #f4a261; }
+
+/* About */
+.abou {
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+}
+.abou h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #2a9d8f;
+}
+.abou p {
+  font-size: 1.05rem;
+  color: #444;
+}
+
+/* Footer */
+.footer {
+  background: #2c2c2c;
+  color: #ddd;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+
+    .fade-up {
+      animation: fadeUp 1.2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Dark Mode */
+    body.dark {
+      --bg: #1c1c1c;
+      --text: #f0f0f0;
+      --accent: #4caf7d;
+      --accent-soft: #a68958;
+    }
+
+    @media screen and (max-width: 768px) {
+      .header-container, .nav-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .search-container {
+        max-width: 100%;
+      }
+      .nav-left {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-right {
+        justify-content: center;
+      }
+      .search-box {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fas fa-spa"></i>
+          <span>AyurSutra</span>
+        </div>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for therapies, medicines, or Ayurvedic advice...">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      
+      <div class="header-actions">
+        <a class="login-btn" href="index.html">Home</a>
+        <div class="action-item">
+          <i class="fas fa-user"></i>
+          <span><a href="navbar/login.html" class="login-btn">Hello, Log in</a></span>
+        </div>
+        <div class="action-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Cart</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <div class="nav-item">Medicine</div>
+        <div class="nav-item"><a href="/button/doctorconsult.html">Doctor Consult</a></div>
+        <div class="nav-item">
+          <i class="fas fa-calendar-check"></i>
+          <a href="schedule.html">Your Schedule</a>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-book"></i>
+          <span>Vedas</span>
+        </div>
+      </div>
+
+      <!-- Notifications on Right -->
+      <div class="nav-right">
+        <div class="icon" id="bellIcon">
+          <i class="fa-regular fa-bell"></i>
+          <span class="badge" id="bellCount">3</span>
+          <div class="notification-panel hidden" id="notificationPanel">
+            <h3>Notifications</h3>
+            <ul id="notificationsList"></ul>
+          </div>
+        </div>
+        <div class="icon">
+          <i class="fa-regular fa-envelope"></i>
+          <span class="badge" id="msgCount">7</span>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero with Search -->
+  <section class="hero glass fade-in">
+    <h1>What are you looking for?</h1>
+    <div class="search-box">
+      <input type="text" placeholder="Search therapies, hospitals, or doctors...">
+      <button>Search</button>
+    </div>
+  </section>
+
+  <!-- Feature Buttons -->
+  <section class="features fade-up">
+    <a href="schedule.html" class="feature-card glass big-btn">📅 Your Schedule</a>
+    <a href="/button/doctorconsult.html" class="feature-card glass big-btn">Doctor Consult</a>
+    <a href="analise.html" class="feature-card glass big-btn">Your analisys <br>& tracking</a>
+    <div class="feature-card glass">🧘 Panchakarma Therapies</div>
+    <div class="feature-card glass">💊 Health Packages</div>
+    <div class="feature-card glass">📤 Upload Prescription</div>
+  </section>
+
+  <!-- Health Concerns -->
+  <section class="browse fade-in">
+    <h2>Therapies by Health Concern</h2>
+    <div class="concerns">
+      <div class="concern-card glass">🫀 Heart</div>
+      <div class="concern-card glass">🦴 Joint Pain</div>
+      <div class="concern-card glass">🧠 Stress Relief</div>
+      <div class="concern-card glass">💆 Skin & Hair</div>
+      <div class="concern-card glass">🍃 Detox</div>
+    </div>
+  </section>
+<!-- foot -->
+   <!-- Her Section -->
+  <header class="her">
+    <div class="overla"></div>
+    <div class="her-content">
+      <h1>AyurSutra Consultation</h1>
+      <p>Personalized Panchakarma care blending ancient Ayurveda with modern digital wellness.</p>
+      <a href="/button/doctorconsult.html" class="btn-primar">Start Your Consultation</a>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section class="abou">
+    <h2>Why Choose AyurSutra?</h2>
+    <p>
+      Our digital consultation service connects you with certified Ayurvedic practitioners.  
+      By sharing your medical history, lifestyle details, and current health complaints,  
+      we design a personalized Panchakarma therapy plan tailored to your needs.  
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 AyurSutra | Panchakarma Patient Management</p>
+  </footer>
+
+  <!-- JS for notifications & dark mode -->
+  <script>
+    // Bell Notification Panel
+    const bellIcon = document.getElementById("bellIcon");
+    const notificationPanel = document.getElementById("notificationPanel");
+    const notificationsList = document.getElementById("notificationsList");
+
+    const notifications = [
+      "🗓 Your next schedule: 12 Sept 2025 for Panchakarma Treatment",
+      "⏰ Advance notice: Herbal massage tomorrow at 10 AM",
+      "📚 Vedas Update: New article on Ayurveda Diets",
+      "✅ Daily Checklist: Drink warm water, Meditate, Exercise",
+      "📍 Nearby Ayurveda Clinics: 3 available near you",
+      "🌿 Daily Activity Tip: Practice breathing exercises for 10 mins"
+    ];
+
+    function loadNotifications() {
+      notificationsList.innerHTML = "";
+      notifications.forEach(note => {
+        const li = document.createElement("li");
+        li.textContent = note;
+        notificationsList.appendChild(li);
+      });
+    }
+
+    bellIcon.addEventListener("click", () => {
+      notificationPanel.classList.toggle("hidden");
+      loadNotifications();
+    });
+
+    // Close panel if click outside
+    document.addEventListener("click", (e) => {
+      if (!bellIcon.contains(e.target)) {
+        notificationPanel.classList.add("hidden");
+      }
+    });
+
+ 
+  </script>
+</body>
+</html>

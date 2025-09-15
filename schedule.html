@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AyurSutra - Patient Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2f6d55;
+      --primary-light: #d4f5e9;
+      --secondary: #f8b400;
+      --secondary-light: #fff5d1;
+      --text: #333;
+      --text-light: #666;
+      --bg-light: #f4f8f7;
+      --white: #ffffff;
+      --gray: #f5f5f5;
+      --gray-border: #e0e0e0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    /* Main header */
+    .main-header {
+      background: var(--white);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--gray-border);
+      box-shadow: var(--shadow);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-shrink: 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .logo i {
+      color: var(--secondary);
+    }
+    
+    /* Search bar */
+    .search-container {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+    }
+    
+    .search-bar {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border: 2px solid var(--primary-light);
+      border-radius: 24px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .search-bar:focus {
+      border-color: var(--primary);
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      cursor: pointer;
+    }
+    
+    /* Header actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .action-item:hover {
+      color: var(--primary);
+    }
+    
+    .login-btn {
+      background: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    
+    .login-btn:hover {
+      background: #26674f;
+      color: white;
+    }
+    
+    /* Main navigation */
+    .main-nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 0 20px;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-item {
+      padding: 14px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .nav-item:hover {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px 2px 0 0;
+    }
+    
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, #3a8369 100%);
+      border-radius: 12px;
+      padding: 40px;
+      color: white;
+      margin-bottom: 40px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    
+    .welcome-banner h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+    
+    .welcome-banner p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-container {
+        flex-wrap: wrap;
+      }
+      
+      .search-container {
+        order: 3;
+        min-width: 100%;
+        margin-top: 15px;
+      }
+    }
+    
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    
+    .card-title {
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--text-light);
+    }
+    
+    .card-icon {
+      font-size: 48px;
+      color: var(--primary-light);
+      margin-bottom: 20px;
+    }
+    
+    .placeholder-text {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--primary);
+      color: white;
+      padding: 30px 20px;
+      margin-top: 50px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer p {
+      opacity: 0.8;
+      margin-top: 15px;
+    }
+
+    /* Notification Panel */
+    .notification-panel {
+      display: none;
+      position: absolute;
+      top: 35px;
+      right: 0;
+      width: 280px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 15px;
+      z-index: 1000;
+    }
+
+    .notification-panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .notification-panel li {
+      padding: 8px 5px;
+      border-bottom: 1px solid var(--gray-border);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .notification-panel li:hover {
+      background: var(--gray);
+    }
+  </style>
+</head>
+<body>
+  <!-- Main header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fas fa-spa"></i>
+          <span>AyurSutra</span>
+        </div>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for therapies, medicines, or Ayurvedic advice...">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      
+      <div class="header-actions">
+        <a class="login-btn" href="index.html">Home</a>
+        <div class="action-item">
+          <i class="fas fa-user"></i>
+          <span class="login-btn"><a href="/navbar/login.html">Hello, Log in</a></span>
+        </div>
+        <div class="action-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Cart</span>
+        </div>
+
+        <!-- Notification Bell -->
+        <div class="action-item" id="bellIcon" style="position: relative; cursor: pointer;">
+          <i class="fa-regular fa-bell"></i>
+          <span id="bellCount" style="
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          ">3</span>
+
+          <div class="notification-panel" id="notificationPanel">
+            <h3 style="margin-bottom:10px; color:#2f6d55;">Notifications</h3>
+            <ul id="notificationsList"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-item">Medicine</div>
+      <div><a href="/button/doctorconsult.html" class="nav-item">Doctor Consult</a></div>
+      <div class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Vedas</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="welcome-banner">
+      <h1>Welcome to AyurSutra Personalized scheduler</h1>
+      <p>Your journey to holistic wellness begins here. Manage your Ayurvedic treatments and wellness plan in one place.</p>
+    </div>
+
+    <div class="dashboard">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Your Therapies</h2>
+          <i class="fas fa-list-ul"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-icon"><i class="fas fa-calendar-plus"></i></div>
+          <p class="placeholder-text">Your upcoming therapies and appointments will appear here once scheduled.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Treatment Progress</h2>
+          <i class="fas fa-signal"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+          <p class="placeholder-text">Your treatment progress and milestones will be displayed here.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Health Records</h2>
+          <i class="fas fa-file-medical"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-icon"><i class="fas fa-folder-open"></i></div>
+          <p class="placeholder-text">Your health records and medical history will be accessible here.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Ayurvedic Guidance</h2>
+          <i class="fas fa-seedling"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+          <p class="placeholder-text">Personalized Ayurvedic advice and recommendations will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 AyurSutra - Ayurvedic Patient Management System</p>
+      <p>Embrace the ancient wisdom of Ayurveda for modern wellness</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const bellIcon = document.getElementById('bellIcon');
+    const notificationPanel = document.getElementById('notificationPanel');
+    const notificationsList = document.getElementById('notificationsList');
+
+    const notifications = [
+      "🗓 Your next schedule: 12 Sept 2025 for Panchakarma Treatment",
+      "⏰ Advance notice: Herbal massage tomorrow at 10 AM",
+      "📚 Vedas Update: New article on Ayurveda Diets",
+      "✅ Daily Checklist: Drink warm water, Meditate, Exercise",
+      "📍 Nearby Ayurveda Clinics: 3 available near you",
+      "🌿 Daily Activity Tip: Practice breathing exercises for 10 mins"
+    ];
+
+    function loadNotifications() {
+      notificationsList.innerHTML = '';
+      notifications.forEach(note => {
+        const li = document.createElement('li');
+        li.textContent = note;
+        notificationsList.appendChild(li);
+      });
+    }
+
+    bellIcon.addEventListener('click', () => {
+      notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
+      loadNotifications();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!bellIcon.contains(e.target)) {
+        notificationPanel.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
